@@ -24,17 +24,7 @@
 */
 var exec = require("cordova/exec");
 module.exports = {
-    /**
-    * @property {Boolean} flag specifies if a request is operating.
-    */
-    isActive: false,
-
-    configure: function(callback, failure, config) {
-        var me = this;
-        var success = function() {
-            me.isActive = true;
-            callback.apply(me, arguments);
-        }
+    configure: function(success, failure, config) {
         exec(success || function() {},
              failure || function() {},
              'BackgroundNotification',
@@ -47,7 +37,6 @@ module.exports = {
             'BackgroundNotification',
             'finish',
             []);
-        this.isActive = false;
     }
 };
 
