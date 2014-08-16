@@ -56,13 +56,6 @@
 
 -(void) onNotification:(NSNotification *) notification
 {
-    UIApplication *app = [UIApplication sharedApplication];
-    // We only run in the background.  Foreground notifications should already be handled.
-    UIApplicationState state = [app applicationState];
-    if (state != UIApplicationStateBackground) {
-        return;
-    }
-    
     NSLog(@"- CDVBackgroundNotification onNotification");
     _notification = notification;
     _completionHandler = [notification.object[@"handler"] copy];
