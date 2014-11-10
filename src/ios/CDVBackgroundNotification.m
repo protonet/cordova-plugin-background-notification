@@ -30,6 +30,7 @@
     void (^_completionHandler)(UIBackgroundFetchResult);
     NSString *_callbackId;
     NSNotification *_notification;
+    BOOL configured;
 }
 
 - (void)pluginInitialize
@@ -47,6 +48,7 @@
     UIApplicationState state = [app applicationState];
     
     _callbackId = command.callbackId;
+    configured = YES;
     
     // Handle case where app was launched due to notification event
     if (state == UIApplicationStateBackground && _completionHandler && _notification) {
@@ -59,6 +61,10 @@
     NSLog(@"- CDVBackgroundNotification onNotification");
     _notification = notification;
     _completionHandler = [notification.object[@"handler"] copy];
+    
+    if (!configured) {
+      return;
+    }
     
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* result = nil;
